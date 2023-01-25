@@ -1,0 +1,76 @@
+	div.debug {display:none;}
+	
+	input[type=checkbox] + label {
+	    position: relative;
+	    display: inline-block;
+	    margin-right: 40px;
+	    padding-left: 32px;
+	    min-height: 22px;
+	    vertical-align: middle;
+	    line-height: 1.4;
+	    cursor: pointer;
+	}
+	
+	body {
+    min-width: 1200px;
+    background: #fff;
+    color: #313131;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: "Arial", "Meiryo", "Hiragino Kaku Gothic Pro", "Microsoft Yahei", "STXihei", "Microsoft MingLiU", "Mingliu", "SimHei", "Nanum Gothic", "Yu Gothic", sans-serif;
+    word-break: break-word;
+	}
+
+	user agent stylesheet
+	label {
+	    cursor: default;
+	}
+	
+	.tb_col .left {
+	    text-align: left;
+	}
+	.tb_col td {
+	    padding: 20px 14px;
+	    font-size: 16px;
+	    color: #1a1a1a;
+	    text-align: center;
+	    vertical-align: middle;
+	    line-height: 24px;
+	    letter-spacing: -1px;
+	    border-right: 1px solid #e0e0e0;
+	    border-bottom: 1px solid #e0e0e0;
+	    background-color: #fff;
+	}
+		.tb_col.st th, .tb_col.st td {
+	    padding: 14px 10px;
+	}
+		.tb_col .left {
+	    text-align: left;
+	}
+	
+	colgroup {
+	    display: table-column-group;
+	}
+	table, td, th {
+	    font-size: 14px;
+	}
+	table {
+	    border-collapse: collapse;
+	    border-spacing: 0;
+	    border: 0;
+	    width: 100%;
+	}
+	
+	user agent stylesheet
+	
+	table {
+	    border-collapse: separate;
+	    text-indent: initial;
+	    border-spacing: 2px;
+	}
+	
+	#nameSpan{
+		margin-left: 20px;
+	}
+	
+		

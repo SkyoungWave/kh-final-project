@@ -1,0 +1,502 @@
+
+
+
+<script type="text/javascript">
+    var currency = 'KRW';
+    var domIntDiv = 'I';
+
+    $(function(){
+        $("input[name='birth']").prop('disabled', true);
+        $("input[name='planType']").prop('disabled', true);
+
+        /* 첫번째 달력*/
+        $('a#start').on('click', function(){
+            $(this).addClass('focus');
+            $('#datepicker_layer_s').fadeIn(200);
+            $('#datepicker_layer_s').css({'left': 187});
+            $('#singleCalendarDP').attr('tabindex','0').focus();
+        });
+
+        /* 두번째 달력*/
+        $('a#end').on('click', function(){
+            $(this).addClass('focus');
+            $('#datepicker_layer_s').fadeIn(200);
+            $('#datepicker_layer_s').css({'left': 457});
+            $('#singleCalendarDP').attr('tabindex','0').focus();
+        });
+
+        /* 날짜 선택시 닫기 */
+        $('a.day').on('click', function(){
+            $('a.focus').focus();
+            $('a#start, a#end').removeClass('focus');
+            $('#datepicker_layer_s').fadeOut(200);
+
+        });
+    });
+
+    $("input[name='agreeInscGuide']").on('click', function(e){
+        var allAgreeInscIndGuide = true;
+        $("input[name='agreeInscIndGuide']").each(function() {
+            var agreeInscIndGuide = $(this).val();
+            if(agreeInscIndGuide == 'false') {
+                allAgreeInscIndGuide = false;
+            }
+        })
+
+        if($(this).prop('checked')) {
+            if(!allAgreeInscIndGuide) {
+                alert('[\uBCF4\uD5D8\uACC4\uC57D \uC911\uC694 \uC548\uB0B4 \uC0AC\uD56D]\uC744 \uBC18\uB4DC\uC2DC \uD655\uC778\uD574\uC8FC\uC2DC\uAE30 \uBC14\uB78D\uB2C8\uB2E4.');
+                $("input[name='agreeInscGuide']").prop('checked', false);
+                showInsuranceGuide();
+                return false;
+            } else {
+                $("input[name='agreeInscGuide']").prop('checked', true);
+            }
+        }
+    });
+
+    $("input[name='agreeInscRuleAndPrivacy']").on('click', function(e){
+        var agreeInscRule = $("input[name='agreeInscRule']").val();
+        var agreeInscPrivacy = $("input[name='agreeInscPrivacy']").val();
+
+        if($(this).prop('checked')) {
+            if(agreeInscRule == 'false' || agreeInscPrivacy == 'false') {
+                alert('[\uAC00\uC785 \uADDC\uC57D \uBC0F \uC81C3\uC790 \uC81C\uACF5 \uB3D9\uC758] \uB97C \uBC18\uB4DC\uC2DC \uD655\uC778\uD574\uC8FC\uC2DC\uAE30 \uBC14\uB78D\uB2C8\uB2E4.');
+                $("input[name='agreeInscRuleAndPrivacy']").prop('checked', false);
+                showInsurancePrivacy();
+                return false;
+            } else {
+                $("input[name='agreeInscRuleAndPrivacy']").prop('checked', true);
+            }
+        } else {
+            $("input[name='agreeInscRule']").val(false)
+            $("input[name='agreeInscPrivacy']").val(false)
+        }
+    });
+
+    $("input[name='chkInscPax']").on('click', function(e){
+        var guestId = $(this).data('guestid');
+
+        if($(this).prop('checked')) {
+            if($("input[name='policyEndDate']").val() == '') {
+                alert('\uC5EC\uD589 \uC885\uB8CC\uC77C\uC790\uB97C \uC785\uB825\uD558\uC138\uC694.');
+                return false;
+            }
+
+            var policyStartDate = $("input[name='policyStartDate']").val();
+            var policyEndDate = $("input[name='policyEndDate']").val();
+            var dateDiffValue = dateDiff(policyStartDate, policyEndDate);
+
+            if(dateDiffValue < 1) { //기간은 최소 2일. 최대3개월까지 설정가능(국내선의 경우 최대1개월 까지 가능)
+                alert('\uC5EC\uD589\uAE30\uAC04\uC740 \uCD5C\uC18C 2\uC77C\uC785\uB2C8\uB2E4.');
+                return false;
+            }
+            var maxPolicyMonth = 30; //국내선의 경우 → (최대 1개월까지 가입가능)
+            if(domIntDiv == 'I') {
+                maxPolicyMonth = 90; //국제선의 경우 → (최대 3개월까지 가입가능)
+            }
+            if(dateDiffValue > maxPolicyMonth) {
+                alert('\uC5EC\uD589\uAE30\uAC04\uC740 \uAD6D\uB0B4\uC120 \uCD5C\uB300 1\uAC1C\uC6D4, \uAD6D\uC81C\uC120 \uCD5C\uB300 3\uAC1C\uC6D4\uC785\uB2C8\uB2E4.');
+                return false;
+            }
+
+            $('#birth_' + guestId).prop('disabled', false);
+            $("#planSelect_" + guestId).prop('disabled', false);
+
+            var birth = $('#birth_' + guestId).val();
+            if(birth != null && birth != '') {
+                getPlanList(guestId);
+            }
+        } else {
+            $('#birth_' + guestId).val('');
+            $('#birth_' + guestId).prop('disabled', true);
+            $("#planSelect_" + guestId).prop('disabled', true);
+
+            getPlanList(guestId);
+        }
+
+        if($("input[name='chkInscPax']:checked").length == 0) {
+            $("#termsArea").css('display', 'none');
+
+            $("input[name*='agreeInscInfo']").prop('checked', false);
+            $("input[name*='agreeInscGuide']").prop('checked', false);
+            $("input[name*='agreeInscRuleAndPrivacy']").prop('checked', false);
+        } else {
+            $("#termsArea").css('display', 'block');
+        }
+
+        $("#joinInscCnt").text($("input[name='chkInscPax']:checked").length);
+    });
+
+    var dateDiff = function(bookingStartDate, bookingEndDate){
+        var arr1 = bookingStartDate.split('-');
+        var dat1 = new Date(arr1[0], arr1[1] - 1, arr1[2]);
+
+        var arr2 = bookingEndDate.split('-');
+        var dat2 = new Date(arr2[0], arr2[1] - 1, arr2[2]);
+
+        var diff = dat2-dat1;
+        var currDay = 24 * 60 * 60 * 1000;
+
+        return diff/currDay;
+    };
+
+    var showEndCalendar = function(){
+        var policyEndDate = $("input[name='policyEndDate']").val();
+        var policyEndDateValue = new Date();
+        if(policyEndDate != '') {
+            policyEndDateValue = new Date(policyEndDate);
+            singleCalendarLayer(policyEndDateValue.getFullYear(), policyEndDateValue.getMonth()+1, policyEndDateValue.getDate(), "policyEndDate", 637, 535, 'N', null, null);
+        } else {
+            singleCalendarLayer(policyEndDateValue.getFullYear(), policyEndDateValue.getMonth()+1, policyEndDateValue.getDate(), "policyEndDate", 637, 535, 'N', null, null);
+        }
+
+        changePolicyDate();
+    };
+
+    var changePolicyDate = function() {
+        $("input[name*='phoneNo']").val('');
+        $("input[name*='chkInscPax']").prop('checked', false);
+        $("input[name*='birth']").val('');
+        $("#joinInscCnt").text(0);
+
+        $("input[name*='agreeInscGuide']").prop('checked', false);
+        $("input[name*='agreeInscIndGuide']").val(false);
+
+        $("input[name*='agreeInscInfo']").prop('checked', false);
+        $("input[name*='agreeInscRule']").val(false);
+        $("input[name*='agreeInscRuleAndPrivacy']").prop('checked', false);
+        $("input[name*='agreeInscPrivacy']").val(false);
+
+        $("input[name='chkInscPax']").each(function() {
+            var guestId = $(this).data('guestid');
+            getPlanList(guestId);
+        });
+    };
+
+    /**
+     * 여행자보험 선택 화면 load - insuranceAvailability
+     */
+    var insuranceAvailability = function() {
+        $( 'html, body' ).animate( { scrollTop : 0 }, 400 );
+
+        destroyRouteSlider();
+
+        $('.sel_passenger_wrap').hide();
+
+        resetDisplayPassengerBundleInfo();
+        displayPassengerBundleInfo(0);
+
+           // 여행자 보험 탭인 경우
+        $('#buttonNextRoute').hide();
+        $('#buttonSkip').show();
+           $('#buttonNextStep').show();
+           // 버튼 이벤트 설정
+           $('#buttonNextStep').unbind('click').bind('click', function(){ savePnr(); });
+
+        $('#tab_ancillary_seat').removeClass('on');
+        $('#tab_ancillary_baggage').removeClass('on');
+        $('#tab_ancillary_meal').removeClass('on');
+        $('#tab_ancillary_insurance').addClass('on');
+
+        $('#tab_meal').hide();
+        $('#tab_seat').hide();
+        $('#tab_baggage').hide();
+        $('#tab_insurance').show();
+    };
+
+    var destroyRouteSlider = function() {
+        routeSlider.init();
+
+        $('.swiper-container').addClass("swiper-no-swiping");
+        $('.swiper-wrapper').addClass("swiper-no-swiping");
+
+        $('#routeSlider').next().hide();
+        $('a.btn_slide_prev').hide();
+        $('a.btn_slide_next').hide();
+        $('div.swiper-pagination-wrapper').hide();
+    }
+
+    var getInsuranceAge = function(todayVal, birth) {
+        var today = new Date(todayVal); //YYYY-MM-DD
+        if(birth.indexOf('-') <= -1) {
+            birth = birth.substring(0,4) + '-' + birth.substring(4,6) + '-' + birth.substring(6,8);
+        }
+        var birthDate = new Date(birth); //YYYY-MM-DD
+
+        var age = today.getFullYear() - birthDate.getFullYear() + 1;
+        return age;
+    }
+
+    var getUSAge = function(todayVal, birth) {
+        var today = new Date(todayVal); //YYYY-MM-DD
+        if(birth.indexOf('-') <= -1) {
+            birth = birth.substring(0,4) + '-' + birth.substring(4,6) + '-' + birth.substring(6,8);
+        }
+        var birthDate = new Date(birth); //YYYY-MM-DD
+
+        var usAge = today.getFullYear() - birthDate.getFullYear();
+        var month = today.getMonth() - birthDate.getMonth();
+
+        if (month < 0 || (month == 0 && today.getDate() < birthDate.getDate())) {
+            usAge--;
+        }
+
+        return usAge;
+    }
+
+    var changeDateFormat = function(guestId) {
+        var agent = navigator.userAgent.toLowerCase();
+        if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) || agent.search( "edge/" ) != -1 ) {
+            if($('#birth_' + guestId).val().indexOf('-') <= -1) {
+                $('#birth_' + guestId).val($('#birth_' + guestId).val().replace(/(\d\d\d\d)(\d\d)(\d\d)/g, '$1-$2-$3'));
+                getPlanList(guestId);
+            }
+        }
+    }
+
+    var getPlanList = function(guestId) {
+        var birth = $('#birth_' + guestId).val();
+
+        if(birth == '') {
+            $("td[name='amt_" + guestId + "']").text('-');
+
+            $("#planSelect_" + guestId).find("option").remove();
+            $("#planSelect_" + guestId).append("<option value=''>" + '\uC120\uD0DD' + "</option>");
+            $("#planSelect_" + guestId).prop('disabled', true);
+
+            calculateFareSummary();
+        } else {
+            if(isValidDate(birth)) {
+                var policyStartDate = $("input[id='policyStartDate']").val();
+                var policyEndDate = $("input[id='policyEndDate']").val();
+
+                $.ajax({
+                    url : "/ajax/booking/insurance/getPlanList" // ajax url
+                    , async: false // 동기(false):비동기(true)
+                    , dataType: 'json'
+                    , type : 'post'
+                    //, contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "json"
+                    , data : {
+                        birth : birth.indexOf('-') > -1 ? birth.replace(/-/gi, "") : birth,
+                        sexDiv : $('#gender_' + guestId).val(),
+                        domIntDiv : domIntDiv,
+                        policyStartDate : policyStartDate.indexOf('-') > -1 ? policyStartDate.replace(/-/gi, "") : policyStartDate,
+                        policyEndDate : policyEndDate.indexOf('-') > -1 ? policyEndDate.replace(/-/gi, "") : policyEndDate
+                    }
+                    , beforeSend: function (xhr) {
+                        xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+                    }
+                    , success : function(data){
+                        $("#planSelect_" + guestId).find("option").remove();
+                        $("#planSelect_" + guestId).append("<option value=''>" + '\uC120\uD0DD' + "</option>");
+                        $("#planSelect_" + guestId).prop('disabled', false);
+
+                        // 조회된 플랜 저장
+                        var planArr = new Array();
+                        $.each(data.data.planList, function(i, item) {
+                            var insurePlanCode = item.insurePlanCode;
+                            var lineupOrder = item.lineupOrder;
+                            var planTitle = item.planTitle;
+                            var planTitleCode = item.planTitleCode;
+                            var insureAmt = item.insureAmt;
+                            var planAmt = item.planAmt;
+
+                            planArr.push(lineupOrder);
+
+                            //$("#planTitle_"+lineupOrder).text(planTitle);
+                            $("#planAmt_"+guestId +"_"+lineupOrder).text(planAmt);
+                            $("#insureAmt_"+guestId +"_"+lineupOrder).text(currencyNumberFormat(currency, parseFloat(insureAmt), decimalCurrencyList));
+
+                            $("#planSelect_" + guestId).append("<option value='"+ insureAmt +"' data-plantitlecode='" + planTitleCode + "'>"+ planTitle +"</option>");
+                        });
+
+                        // 조회되지 않은 플랜 초기화
+                        for(i=1;i<4;i++) {
+                            if(jQuery.inArray(i, planArr) == -1) {
+                                $("#planAmt_"+guestId +"_"+i).text("-");
+                                $("#insureAmt_"+guestId +"_"+i).text("-");
+                            }
+                        }
+                    }
+                    , error : function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                $("td[name='amt_" + guestId + "']").text('-');
+
+                $("#planSelect_" + guestId).find("option").remove();
+                $("#planSelect_" + guestId).append("<option value=''>" + '\uC120\uD0DD' + "</option>");
+                $("#planSelect_" + guestId).prop('disabled', true);
+            }
+        }
+    }
+
+    var createInsuranceForm = function() {
+        var insureForm = $('#insureForm');
+        insureForm.find('input.relatorList').remove();
+
+        var totalInsureAmount = 0;
+           var i = 0;
+        $('select[id^=planSelect]').each(function() {
+            // 순번 데이터를 위한 설정
+            if(this.value != '') {
+                i++;
+                var insureAmount = $(this).val();
+                totalInsureAmount += parseFloat(insureAmount);
+
+                var guestId = $(this).data('guestid');
+                var insureAmount = $(this).val();
+                var birth = $('#birth_'+guestId).val().indexOf('-') > -1 ? $('#birth_'+guestId).val().replace(/-/gi, "") : $('#birth_'+guestId).val();
+                var relator = 'guestId=' + guestId;
+                relator += '&relatorNo=' + i;
+                relator += '&name=' + $('#name_'+guestId).val();
+                relator += '&gender=' + $('#gender_'+guestId).val();
+                relator += '&birth=' + birth;
+                relator += '&planType=' + $(this).find(':selected').data('plantitlecode');
+                relator += '&guestInsureAmount=' + insureAmount;
+
+                insureForm.append('<input type="hidden" class="relatorList" name="relatorList" value="'+ relator +'" />');
+            }
+        });
+
+        // AccessToken
+        var accessToken = insureForm.find("input[name*='accessToken']").val();
+        if(accessToken == null || accessToken == '') {
+            $.ajax({
+                url : "/ajax/booking/insurance/getAccessToken" // ajax url
+                , async: false // 동기(false):비동기(true)
+                , dataType: 'json'
+                , type : 'post'
+                , beforeSend: function (xhr) {
+                    xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+                }
+                , success : function(data) {
+                    insureForm.find("input[name*='accessToken']").val(data.data.accessToken);
+                }
+                , error : function(xhr, status, error) {
+                    // 설계저장 API 호출 error 시 알럿 필요
+                    alert('\uC5EC\uD589\uC790 \uBCF4\uD5D8 \uC11C\uBE44\uC2A4 \uCC98\uB9AC\uC5D0 \uC2E4\uD328\uD558\uC600\uC2B5\uB2C8\uB2E4.');
+                    console.log(error);
+                    // 이후 savePnr 진행
+                }
+            });
+        }
+    }
+
+    var showInsuranceGuide = function() {
+        // 여행자보험 선택한 탑승객이 있는 경우
+        var validInsure = true;
+        var validBirth = false;
+
+           var policyStartDate = $("input[id='policyStartDate']").val();
+        var policyEndDate = $("input[id='policyEndDate']").val();
+
+        var toDay = new Date();
+        var year = toDay.getFullYear();
+        var month = (toDay.getMonth() + 1);
+        var day = toDay.getDate();
+        var todayVal = new String(year)+"-"+new String(month < 10 ? "0"+month : month)+"-"+new String(day < 10 ? "0" + day : day);
+
+           if($("input[name*='phoneNo']").val() == '') {
+               alert('\uD734\uB300\uC804\uD654\uBC88\uD638\uB97C \uC785\uB825\uD574 \uC8FC\uC138\uC694.');
+               validInsure = false;
+               window.scroll(0, getOffsetTop(document.getElementById('tab_wrap')));
+               return false;
+           }
+
+           $("input[name='chkInscPax']:checked").each(function() {
+               var guestId = $(this).data('guestid');
+               var planSelect = $("#planSelect_" + guestId).val();
+               if(planSelect == null || planSelect == '') {
+                   alert('\uAC00\uC785\uD50C\uB79C\uC744 \uC120\uD0DD\uD574\uC8FC\uC2DC\uAE30 \uBC14\uB78D\uB2C8\uB2E4.');
+                   validInsure = false;
+                   window.scroll(0, getOffsetTop(document.getElementById('tab_wrap')));
+                   return false;
+               }
+
+               var birth = $('#birth_' + guestId).val();
+            var age = getInsuranceAge(todayVal, birth);
+            var usAge = getUSAge(todayVal, birth);
+            if(age >= 100) { //100세 이상일 경우 알럿 생성
+                var msg = '\uD574\uB2F9 \uD50C\uB79C\uC740 \uC120\uD0DD \uBD88\uAC00 \uD569\uB2C8\uB2E4.\\n(100\uC138 \uC774\uC0C1 \uAC00\uC785 \uBD88\uAC00)';
+                var message = msg.replace(/\\n/, "\n");
+                alert(message);
+
+                validInsure = false;
+                   window.scroll(0, getOffsetTop(document.getElementById('tab_wrap')));
+                return false;
+            }
+            if(usAge >= 80) { // 만 80세 이상 : 최대가입기간 1달 1달 이상 선택 시 얼럿생성
+                var dateDiffValue = dateDiff(policyStartDate, policyEndDate);
+                if(dateDiffValue > 30) {
+                    var msg = '\uD574\uB2F9 \uD50C\uB79C\uC740 \uC120\uD0DD \uBD88\uAC00 \uD569\uB2C8\uB2E4.\\n(\uB9CC 80\uC138 \uC774\uC0C1 \uCD5C\uB300 \uAC00\uC785\uAE30\uAC04 1\uB2EC)';
+                    var message = msg.replace(/\\n/, "\n");
+                    alert(message);
+
+                    validInsure = false;
+                    window.scroll(0, getOffsetTop(document.getElementById('tab_wrap')));
+                    return false;
+                }
+            }
+
+            if(usAge > 19) { // 만 19세 이하 단독인 경우
+                validInsure = true;
+                validBirth = true;
+            }
+           });
+
+           if(validInsure && !validBirth) {
+               alert('19\uC138 \uBBF8\uB9CC \uC2B9\uAC1D\uC740 \uBCF4\uD5D8\uAC00\uC785\uC774 \uBD88\uAC00\uD569\uB2C8\uB2E4.');
+               validInsure = false;
+               window.scroll(0, getOffsetTop(document.getElementById('tab_wrap')));
+               return false;
+        }
+
+        if(validInsure) {
+            createInsuranceForm();
+            insuranceGuideLayer($('#insureForm').serialize());
+        }
+    }
+
+    var showInsurancePrivacy = function() {
+        insurancePrivacyLayer();
+    }
+
+    var callInsertQuote = function() {
+        createInsuranceForm();
+
+        $.ajax({
+            url : "/ajax/booking/insurance/callInsertQuote" // ajax url
+            , async: false // 동기(false):비동기(true)
+            , dataType: 'json'
+            , type : 'post'
+            //, contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "json"
+            , data : $('#insureForm').serialize()
+            , beforeSend: function (xhr) {
+                xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+            }
+            , success : function(data) {
+                if(!data.success) {
+                    var msg = '\uC124\uACC4 \uC2E4\uD328\uB85C \uC5EC\uD589\uC790\uBCF4\uD5D8\uC744 \uC81C\uC678\uD55C \uD56D\uACF5\uAD8C \uC608\uB9E4\uB97C \uC9C4\uD589\uD569\uB2C8\uB2E4.\\n(\uC0AC\uC720 : {0})';
+                    var message = msg.replace(/\\n/, "\n").replace('{0}', data.messageCode);
+                    alert(message);
+                    console.log(data.messageCode);
+                } else {
+                    // 리턴받은 탑승객별 보험료, 총 합 비교해서 savePnrElement RQ set
+                    $.each(data.data.inscSavePnrElementList, function(i, item) {
+                        $('#bookingForm').append('<input type="hidden" class="SavePnrElementInfo" name="SavePnrElementInfo" value="'+ item +'" />');
+                    });
+                    // 이후 savePnr 진행
+                }
+            }
+            , error : function(xhr, status, error) {
+                // 설계저장 API 호출 error 시 알럿 필요
+                alert('\uC124\uACC4 \uC2E4\uD328\uB85C \uC5EC\uD589\uC790\uBCF4\uD5D8\uC744 \uC81C\uC678\uD55C \uD56D\uACF5\uAD8C \uC608\uB9E4\uB97C \uC9C4\uD589\uD569\uB2C8\uB2E4.\\n(\uC0AC\uC720 : {0})');
+                console.log(error);
+                // 이후 savePnr 진행
+            }
+        });
+       }
+</script>

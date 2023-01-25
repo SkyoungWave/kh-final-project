@@ -1,0 +1,305 @@
+body {
+    min-width: 1200px;
+    background: rgb(255, 255, 255);
+}
+
+.sel_food_wrap .food_title h2 {
+    padding-left: 30px;
+    display: inline-block;
+}
+
+.sel_food_wrap .food_list {
+    border: 1px solid rgb(204, 204, 204);
+    padding: 36px 36px 0px;
+}
+
+.sel_food_wrap .food_list::after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.sel_food_wrap .food_list .sel_food_info dl dt .icon {
+    top: 0px;
+    margin-top: 0px;
+}
+
+input[type="checkbox"]:checked + label .icon {
+    background: url(//contents-image.twayair.com/homepage/images/ico/ico_checkbox.png) 0px -22px no-repeat;
+}
+
+
+input[type="checkbox"] + label {
+    position: relative;
+    display: inline-block;
+    margin-right: 40px;
+    padding-left: 32px;
+    min-height: 22px;
+    vertical-align: middle;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img .ico_food_2 {
+    display: inline-block;
+    position: absolute;
+    top: 19px;
+    right: 43px;
+    padding: 0px;
+    width: 35px;
+    height: 38px;
+    text-indent: -9999px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+
+img, input, textarea, select, button {
+    vertical-align: middle;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(49, 49, 49);
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: Arial, Meiryo, "Hiragino Kaku Gothic Pro", "Microsoft Yahei", STXihei, "Microsoft MingLiU", Mingliu, SimHei, "Nanum Gothic", "Yu Gothic", sans-serif;
+}
+
+user agent stylesheet
+label {
+    cursor: default;
+}
+
+
+
+user agent stylesheet
+li {
+    text-align: -webkit-match-parent;
+}
+
+.sel_food_wrap .food_title .time {
+    display: inline-block;
+    float: right;
+    padding: 0px 30px;
+    background: url(//contents-image.twayair.com/homepage/images/booking/ico_time.png) 0px 50% no-repeat;
+}
+
+
+user agent stylesheet
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.sel_food_wrap .food_title {
+    border-top: 1px solid rgb(204, 204, 204);
+    border-right: 1px solid rgb(204, 204, 204);
+    border-left: 1px solid rgb(204, 204, 204);
+    border-image: initial;
+    border-bottom: none;
+    background: rgb(238, 244, 231);
+    height: 69px;
+    line-height: 69px;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img .ico_food {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0px;
+    width: 35px;
+    height: 35px;
+    text-indent: -9999px;
+}
+.sel_food_wrap .ico_food.hot {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_hot.png);
+}
+.sel_food_wrap .ico_food {
+    display: inline-block;
+    padding-left: 30px;
+    line-height: 36px;
+    font-size: 16px;
+    color: rgb(77, 77, 77);
+    background-repeat: no-repeat;
+    background-position: 0px 50%;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img {
+    display: table-cell;
+    position: relative;
+    width: 380px;
+    height: 230px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgb(204, 204, 204);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+.sel_food_wrap .food_list .sel_food_info .img .ico_bul.new {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_new.png);
+}
+
+.sel_food_wrap .food_list .sel_food_info {
+    position: relative;
+}
+
+.ico_guide .ico_food.hot {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_hot.png);
+}
+.ico_guide .ico_food {
+    display: inline-block;
+    padding-left: 30px;
+    line-height: 36px;
+    font-size: 16px;
+    color: rgb(77, 77, 77);
+    background-repeat: no-repeat;
+    background-position: 0px 50%;
+}
+
+.ico_guide .ico_food + .ico_food {
+    margin-left: 49px;
+}
+.ico_guide .ico_food.vege {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_vege.png);
+}
+
+.ico_guide .ico_food.cold {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_cold.png);
+}
+
+.ico_guide .ico_food.adult {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_adult.png);
+}
+
+.ico_guide .ico_food.kid {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_kid.png);
+}
+
+.ico_guide .ico_food.reli {
+    background-image: url(//contents-image.twayair.com/homepage/images/booking/ico_food_reli.png);
+}
+
+.ico_guide {
+    padding: 21px 0px;
+    text-align: center;
+}
+
+
+
+img[Attributes Style] {
+}
+user agent stylesheet
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img img {
+    width: 100%;
+}
+
+input[type="checkbox"] {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img .ico_zoom {
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 42px;
+    height: 55px;
+    background: url(//contents-image.twayair.com/homepage/images/booking/ico_food_zoom.png) 50% 50% no-repeat;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
+a {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sel_food_wrap .food_list .sel_food_info dl dt label p {
+    overflow: hidden;
+    display: -webkit-box;
+    height: 44px;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+user agent stylesheet
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.sel_food_wrap .food_list .sel_food_info dl dt label {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(26, 26, 26);
+    line-height: 22px;
+}
+
+user agent stylesheet
+label {
+    cursor: default;
+}
+
+ul, ol, li {
+    list-style: none;
+}
+user agent stylesheet
+li {
+    text-align: -webkit-match-parent;
+}
+
+input[type="checkbox"] + label .icon {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -11px;
+    font-size: 0px;
+    background: url(//contents-image.twayair.com/homepage/images/ico/ico_checkbox.png) 0px 0px no-repeat;
+}
+
+.sel_food_wrap .food_list .sel_food_info dl dt, .sel_food_wrap .food_list .sel_food_info dl dd {
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.sel_food_wrap .food_list ul li {
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 65px;
+    width: 355px;
+    box-sizing: border-box;
+}
+
+.sel_food_wrap .food_list .sel_food_info .img .ico_bul {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    width: 42px;
+    height: 55px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    text-indent: -9999px;
+}
+
+input[type="checkbox"]:checked + label .icon {
+    background: url(//contents-image.twayair.com/homepage/images/ico/ico_checkbox.png) 0px -22px no-repeat;
+}
+
