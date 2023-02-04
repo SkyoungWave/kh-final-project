@@ -48,7 +48,7 @@ CARROT LINE 항공 사이트
 
 - ER Diagram :<br>
 
-![CCC_FINAL_ERD]()
+![CARROT LINE DB](https://user-images.githubusercontent.com/112539413/216753402-97872d10-56b2-4645-a2f4-9000a761d9de.jpg)
 <br>
 <hr>
 <br>
@@ -63,8 +63,13 @@ CARROT LINE 항공 사이트
     + 공지사항 관리(CRUD) 기능.<br>
 
 <div align="center">
+  <img src="https://user-images.githubusercontent.com/112539413/216753412-b2c02951-56b7-43bc-b98d-13d2bcfe96f6.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753429-306b70b2-ebfa-44d8-84d2-db10168b1de4.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753442-af37e37c-205a-4093-88f3-098b6f851edf.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753457-c1b17c86-07b1-407a-9398-364c965afe99.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753465-9b400c96-3d63-42c7-8d06-8f3db463cc45.jpg">
 </div>
-  
+
 - 항공 예약(좌석, 위탁수하물, 기내식, 여행자보험) 페이지 :
 
     + 예약자 사전 등록정보가 Cookie 리스트에 저장되고, 그 Cookie에서 사용자 정보를 뽑아서 탑승자 슬라이드에 시각화 <br>
@@ -76,8 +81,12 @@ CARROT LINE 항공 사이트
     + Cookie 저장 시 다량의 정보를 리스트 형태로 보존할 수 있도록 Cookie vo 와 ArrayList를 활용.
 
 <div align="center">
-  
+  <img src="https://user-images.githubusercontent.com/112539413/216753477-4d9885b5-2afb-461b-bf88-bc503f1970c4.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753497-3ea6863e-0712-4e45-bdfa-b7e10d0ed0d1.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753481-1e62f7aa-b669-437d-b853-25b5d62185f0.jpg">
+  <img src="https://user-images.githubusercontent.com/112539413/216753511-f069d717-24c7-442e-8141-c5e1ccb75e40.jpg">
 </div>
+ 
 
 <br><hr>
 
